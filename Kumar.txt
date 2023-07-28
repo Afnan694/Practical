@@ -1,0 +1,335 @@
+# Practical 1 ML
+import numpy as np import matplotlib.pyplot as plt
+
+import pandas as pd
+
+dataset = pd.read_csv('Mall_Customers.csv') X= dataset.iloc[:, [3, 4]].values
+from sklearn.cluster import KMeans
+
+WCSS = []
+
+for
+
+i in range(1, 11): kmeans KMeans (n_clusters = i, init = 'k-means++, random_state= 42)
+
+kmeans.fit(X)
+
+wcss.append(kmeans. inertia_) plt.plot(range(1, 11), wcss)
+
+plt.title('The Elbow Method") plt.xlabel('Number of clusters")
+
+plt.ylabel('WCSS')
+
+plt.show()
+kmeans = KMeans (n_clusters = 5, init = 'k-means++', random_state= 42) y_kmeans = kmeans.fit_predict (X)
+
+plt.scatter(x[y_kmeans 8, 0], X[y kneans, 1], s 180, c 'red', label 'Cluster 1') plt.scatter(x[y kneans 1, 0], x[y kmeans = 1, 1], s 100, c'blue', label Cluster 2')
+
+plt.scatter(x[y_kmeans 2, e1, x[y_kmeans = 2, 11, s 100, c'green", label Cluster 3) plt.scatter(x[y_kmeans 3, 0], x[y_kmeans = 3, 1), s 100, c'black', label 'Cluster 4) plt.scatter(x[y_kmeans 4, 0], x[y kmeans = 4, 1], s 100, magenta, label "Cluster 5")
+
+plt.scatter (kmeans.cluster_centers [:, e], kneans.cluster_centers [:, 1), s 300, c "yellow", label "Centroids") plt.title('Clusters of customers")
+
+plt.xlabel("Annual Income ($)") plt.ylabel(Spending Score (1-100))
+
+plt.legend() plt.show()
+
+
+#practical 2 ML
+
+import numpy
+
+import matplotlib.pyplot as mtp import pandas as pd
+
+dataset-pd.read_csv('Mall Customers.csv')
+
+dataset
+
+x=dataset.iloc[:,[3,4]].values import scipy.cluster.hierarchy as shc dendro shc.dendrogram(shc.linkage (x, method="ward")) mtp.title("Dendrogrma Plot") mtp.ylabel("Euclidean Distances") mtp.xlabel("Customers")
+
+mtp.show()
+from sklearn.cluster import AgglomerativeClustering hc-AgglomerativeClustering (n_clusters=5, affinity-'euclidean', linkage='ward')
+
+y_pred-hc.fit_predict(x)
+
+mtp.scatter(x[y_pred-=0,0],x[y_pred-=0,1],s=100, c='blue', label='Cluster 1')
+
+mtp.scatter(x[y_pred=1,0],x[y_pred==1,1], s=100, c='green', label='Cluster 2')
+
+mtp.scatter(x[y_pred=2,8], x[y_pred ==2,1],s=100, c='red', label='Cluster 3')
+
+mtp.scatter (x[y_pred= 3,0],x[y_pred= 3,1],5-108,c='cyan, label='Cluster 4') mtp.scatter (x[y_pred=4,0],x[y_pred==4,1],s=100, c='magenta, label='Cluster 5')
+
+mtp.title('Clusters of customers')
+
+mtp.xlabel('Annual Income (ks)')
+
+mtp.ylabel('Spending Score (1-100)')
+
+mtp.legend()
+
+mtp.show()
+
+#practical 3
+import numpy as nm
+
+
+import matplotlib.pyplot as mtp
+import pandas as pd
+
+
+dataset = pd.read_csv('apriori.csv')
+dataset
+
+dataset.shape
+
+transactions=[] for i in range(0, 9):
+
+transactions.append([str(dataset.values[i, j]) for i in range(0,5)])
+
+from apyori import apriori
+
+rules= apriori (transactions= transactions, min_support=0.003, min_confidence =
+
+rules
+
+results= list(rules) results
+
+for item in results:
+
+pair item[0] =
+
+items [x for x in pair] print("Rule: " + items[0] + " -> " + items[1])
+
+print("Support: str(item[1])) + print("Confidence: str(item[2][0][2])) print("Lift:+ str(item[2][0][3])) print("=================")
+
+#practical 4
+import pandas as
+
+pd
+
+from mlxtend. frequent_patterns import fpgrowth
+
+from mlxtend. frequent patterns import association_rules
+
+data= pd.read_csv('4. Day1.csv')
+
+data
+
+encoded_data = pd.get_dummies (data)
+
+encoded_data
+frequent itemsets fpgrowth (encoded data, min_support-0.01, use colnames=True)
+
+frequent itemsets
+rules association_rules (frequent_itemsets, metric="Lift", min_threshold=1)
+rules
+
+#Practical 5
+import numpy as np
+
+state_to_index = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4) index_to_state= (0: A, 1: 8, 2: 'C', 3: '0', 4: 'E')
+
+reward_matrix = np.array([ [e, 1, e, e, e],
+
+[1, 0, 1, 0, 0], [e, 1, 0, 1, 0],
+
+[0, 0, 1, 0, 1],
+
+[e, e, e, 1, 0]
+
+])
+
+print("Reward Matrix:") print(reward_matrix)
+
+gamma = 0.95
+alpha = 0.1 
+
+print("Discount Factor (Gamma):", gamma)
+
+state_size = len(state_to_index) action_size = state_size Q_matrix = np.zeros([state_size, action_size])
+
+def q learning update(s, a, reward, $2, Qmatrix) Qmatrix[s, a] (1-alpha) matrix[s, alpha (reward gamma*
+
+np.max(Qmatrix[s2, =]))
+s = s2
+return s,Q_matrix
+
+def get_action(state, Qmatrix, epsilon-0.1): if np.random.random() < epsilon:
+
+return np.random.choice(action_size) return np.argmax (Q_matrix[state, :])
+
+def find_optimal_route (initial state, goal state, Qmatrix, episodes=1000):
+
+for
+
+in range(episodes):
+
+state initial state
+
+while state = goal state: action get_action(state, matrix) next state action
+
+reward reward_natrix[state, action] state, matrix q_learning_update(state, action, reward, next_state, matrix)
+
+return Qmatrix
+initial_state = state_to_index["A"]
+
+goal state state_to_index['E]
+
+Q_matrix = find_optimal_route (initial state, goal state, Q_matrix)
+
+print("Q-matrix:") 
+print(Q_matrix)
+
+optimal_actions [np.argmax(matrix[state, ]) for state in range(state_size)] optimal actions [index_to_state[action] for action in optimal_actions] print("Optimal Actions for each state:", optimal_actions)
+
+for state in state_to_index: for action in state to index:
+
+state_idx state to index[state]
+
+action_idx state_to_index[action] Inmediate reward reward matrix[state_idx, action_id] print("Immediate Reward for moving from state {state}to state {action}: {immediate reward}")
+
+action_sequence ['A', 'B', 'C', 'D', 'E'] discounted_reward
+
+current gamma-1
+
+= 8
+
+for i in range(len(action_sequence) state state_to_index[action_sequence[i]] 1): next_state = state_to_index[action_sequence[i+1]] reward reward_matrix[state, next_state]
+
+discounted_reward current gamma reward
+
+current_gamma "gamma
+
+print("Discounted Reward for the action sequence:", discounted_reward)
+
+#Practical 6
+
+import pandas as pd
+
+import numpy as np
+
+import matplotlib.pyplot as plt
+
+from statsmodels.tsa.stattools import adfuller from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+
+import seaborn as sns
+
+import warnings
+
+warnings.filterwarnings("ignore")
+
+Load the Air Passengers dataset
+
+series = pd.read_csv('https://raw.githubusercontent.com/jbrownlee/Datasets/master/airline-passengers.csv', header e, index_col-0,
+
+series.head()
+
+def check_stationary (series):
+
+result adfuller (series) print('ADF Statistic: %f % result[e])
+
+print('p-value: %f % result[1]) print('Critical Values:')
+
+for key, value in result[4].items(): print("\t%s:%.3f' % (key, value))
+
+check_stationary (series)
+
+def make stationary (series): stationary series series. diff().dropna() return stationary_series
+
+stationary series = make_stationary (series)
+check_stationary (stationary_series)
+
+check_stationary (stationary_series)
+
+plot_acf(stationary_series) plot_pacf(stationary_series) plt.show()
+
+plt.figure(figsize=(10, 6))
+
+plt.plot(series.index, series [ "Passengers"])
+
+plt.title("Airline Passengers")
+
+plt.xlabel("Year")
+
+plt.ylabel("Passengers")
+
+plt.show()
+import pmdarima as pm
+
+auto_model = pm. auto_arima (series, seasonal=False, stepwise=True,
+
+suppress_warnings=True, trace=True,
+
+error_action="ignore", information criterion='aic') print("Optimal (p, d, q) values:", auto_model.order)
+from statsmodels.tsa.arima.model import ARIMA
+
+model = ARIMA (series, order=(4, 1, 3)) model_fit model.fit()
+
+# Plot the stationary series and fitted values plt.figure(figsize (10, 6)) plt.plot(stationary_series, label="Actual")
+
+plt.plot(model fit. fittedvalues, color='red', label="ARIMA") plt.title("ARIMA - Airline Passengers") plt.xlabel("Year") plt.ylabel("Passengers")
+
+plt.legend()) plt.show()
+forecast = model_fit.forecast (steps=10) print("Forecasted values: \n", forecast)
+
+#Practical 7
+
+from sklearn.datasets import load_iris
+
+from sklearn.model_selection import train_test_split, cross_val_score from sklearn.ensemble import AdaBoostClassifier from sklearn.metrics import accuracy_score
+
+iris = load_iris()
+
+X, y = iris.data, iris.target
+
+X_train, X_test, y_train, y_test train_test_split(x, y, test_size-0.3, random_state=42)
+
+clf AdaBoostClassifier (n_estimators=50, learning_rate=1, random_state=42) CV_scores = cross_val_score (clf, X_train, y_train, cv=5)
+
+print("Cross-validation scores:", cv_scores) print("Mean cross-validation score:", cv_scores.mean())
+
+clf.fit(x_train, y_train)"
+
+y_pred clf.predict(X_test) accuracy accuracy_score (y_test, y_pred)
+
+print("Test set accuracy:", accuracy)
+
+import numpy as np import matplotlib.pyplot as plt
+
+n_estimators_values [10, 50, 180, 500, 1eee, seee]
+
+cv_scores mean = []
+
+for n estimators in n_estinators_values:
+
+clf AdaBoostClassifier(n_estimators-n_estimators, learning_rate=1, random_state=42) cv_scores cross_val_score (clf, x_train, y_train, cv=5)
+
+cv_scores mean.append(cv_scores.mean())
+
+plt.plot(n_estimators_values, cv_scores_mean, marker='0')
+
+plt.xlabel('Number of Trees')
+
+plt.ylabel('Mean Cross-Validation Score')
+
+plt.title('AdaBoost Performance with Different Numbers of Trees')
+
+plt.show()
+
+learning rates np.linspace (0.1, 2, 20)
+
+cv_scores mean = []
+
+for learning rate in learning rates: clf AdaBoostClassifier (n_estimators=50, learning_rate-learning_rate, random_state=42) cv_scores = cross_val_score (clf, X_train, y_train, cv=5)
+
+cv_scores mean.append(cv_scores.mean())
+
+plt.plot(learning rates, cv_scores_mean, marker='0')
+
+plt.xlabel('Learning Rate')
+
+plt.ylabel('Mean Cross-Validation Score')
+
+plt.title('AdaBoost Performance with Different Learning Rates')
+
+plt.show()
